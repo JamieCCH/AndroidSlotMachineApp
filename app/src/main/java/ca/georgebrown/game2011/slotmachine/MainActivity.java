@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
     private ImageView Reel02;
     private ImageView Reel03;
 
+    private Button[] betButton = new Button[8];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,9 @@ public class MainActivity extends Activity {
             }
         });
 
+        betting();
+
+
 //        Bitmap imageReel1 = null;
 //        try {
 //            imageReel1 = getBitmapFromAssets("pic/img_item1.png");
@@ -76,8 +80,6 @@ public class MainActivity extends Activity {
 //            e.printStackTrace();
 //        }
 //        Reel01.setImageBitmap(imageReel1);
-
-
 
     }
 
@@ -118,6 +120,61 @@ public class MainActivity extends Activity {
         Reel03.setImageBitmap(item[random3]);
     }
 
+
+    public void betting(){
+
+        for(int i=0; i<betButton.length; ++i)
+        {
+            String betButtonId = "betBt"+(i+1);
+            betButton[i] = findViewById(R.id.betBt1);
+
+            int resID = getResources().getIdentifier(betButtonId, "id", getPackageName());
+            betButton[i] = (findViewById(resID));
+            final int finalI = i;
+            betButton[i].setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v)
+                {
+                    switch(finalI)
+                    {
+                        case 0:
+                            bet += 1;
+                            playerBet.setText(""+bet);
+                            break;
+                        case 1:
+                            bet +=5;
+                            playerBet.setText(""+bet);
+                            break;
+                        case 2:
+                            bet +=10;
+                            playerBet.setText(""+bet);
+                            break;
+                        case 3:
+                            bet +=20;
+                            playerBet.setText(""+bet);
+                            break;
+                        case 4:
+                            bet +=50;
+                            playerBet.setText(""+bet);
+                            break;
+                        case 5:
+                            bet +=100;
+                            playerBet.setText(""+bet);
+                            break;
+                        case 6:
+                            bet +=200;
+                            playerBet.setText(""+bet);
+                            break;
+                        case 7:
+                            bet +=500;
+                            playerBet.setText(""+bet);
+                            break;
+                        default:
+                            break;
+                    }
+                }});
+        }
+
+    }
 
 
 }
