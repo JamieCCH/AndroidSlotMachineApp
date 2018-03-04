@@ -45,6 +45,15 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super .onCreate(savedInstanceState);
         setContentView(R.layout. activity_main);
+//
+//        ImageView bgPic = findViewById(R.id.background);
+//        Bitmap bg = null;
+//        try {
+//            bg = getBitmapFromAssets("pic/img_background.png");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        bgPic.setImageBitmap(bg);
 
         playerBalance = findViewById(R.id.balanceText);
         playerBalance.setText(""+playerMoney);
@@ -63,7 +72,7 @@ public class MainActivity extends Activity {
 
         hint = findViewById(R.id.hintText);
 
-        setWinTime = new Random().nextInt(5)+1;
+        setWinTime = new Random().nextInt(13)+5;
 
         Button quit = findViewById(R.id.quitBt);
         quit.setOnClickListener(new View.OnClickListener() {
@@ -175,14 +184,14 @@ public class MainActivity extends Activity {
         }
 
         //set must win condition
-        if(playTimes >= setWinTime && winTimes < 3){
+        if(playTimes >= setWinTime && winTimes < 5){
             Reel01.setImageBitmap(item[random1]);
             Reel02.setImageBitmap(item[random1]);
             Reel03.setImageBitmap(item[random1]);
             hint.setText("You Won!");
             isWin = true;
             playTimes = 0;
-            setWinTime = new Random().nextInt(setWinTime)+3;
+            setWinTime = new Random().nextInt(setWinTime)+5;
 
             if (random1 ==0) {
                 playerMoney += bet*50;
@@ -192,7 +201,7 @@ public class MainActivity extends Activity {
 
         if(isWin){
             winTimes++;
-            if(winTimes >= 3) winTimes = 0;
+            if(winTimes >= 5) winTimes = 0;
             playerMoney += bet;
             playerBalance.setText(""+playerMoney);
         }else{
