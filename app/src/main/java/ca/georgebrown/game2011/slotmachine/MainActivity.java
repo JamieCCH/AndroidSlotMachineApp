@@ -164,8 +164,15 @@ public class MainActivity extends Activity {
         Reel02.setImageBitmap(item[random2]);
         Reel03.setImageBitmap(item[random3]);
 
-        if(random1==random2 && random2==random3) isWin = true;
-        if(random1!=random2 || random1 != random3) isWin = false;
+        if(random1==random2 && random2==random3){
+            isWin = true;
+            hint.setText("You Won!");
+        }else isWin = false;
+
+        if(random1+random2+random3==0){
+            playerMoney += bet*50;
+            hint.setText("You Won Bonus!");     //not working
+        }
 
         if(playTimes >= setWinTime && winTimes < 3){
             isWin = true;
@@ -174,6 +181,11 @@ public class MainActivity extends Activity {
             Reel03.setImageBitmap(item[random1]);
             playTimes = 0;
             setWinTime = new Random().nextInt(setWinTime)+3;
+
+            if (random1 ==0) {
+                playerMoney += bet*50;
+                hint.setText("You Won Bonus!");     //not working
+            }
         }
 
         if(isWin){
@@ -181,7 +193,6 @@ public class MainActivity extends Activity {
             if(winTimes >= 3) winTimes = 0;
             playerMoney += bet;
             playerBalance.setText(""+playerMoney);
-            hint.setText("You Won!");
         }else{
             playerMoney -= bet;
             if(playerMoney < 0) playerMoney = 0;
