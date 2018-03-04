@@ -142,6 +142,7 @@ public class MainActivity extends Activity {
     }
 
     public void spin() {
+
         if(bet == 0) hint.setText("You gotta place your bet");
 
         if(haveMoney && playerMoney>=bet && bet>0){
@@ -150,7 +151,6 @@ public class MainActivity extends Activity {
             hint.setText("Not enough money");
             spinButton.setEnabled(false);
         }
-
         playTimes++;
     }
 
@@ -165,8 +165,8 @@ public class MainActivity extends Activity {
         Reel03.setImageBitmap(item[random3]);
 
         if(random1==random2 && random2==random3){
-            isWin = true;
             hint.setText("You Won!");
+            isWin = true;
         }else isWin = false;
 
         if(random1+random2+random3==0){
@@ -174,11 +174,13 @@ public class MainActivity extends Activity {
             hint.setText("You Won Bonus!");     //not working
         }
 
+        //set must win condition
         if(playTimes >= setWinTime && winTimes < 3){
-            isWin = true;
             Reel01.setImageBitmap(item[random1]);
             Reel02.setImageBitmap(item[random1]);
             Reel03.setImageBitmap(item[random1]);
+            hint.setText("You Won!");
+            isWin = true;
             playTimes = 0;
             setWinTime = new Random().nextInt(setWinTime)+3;
 
