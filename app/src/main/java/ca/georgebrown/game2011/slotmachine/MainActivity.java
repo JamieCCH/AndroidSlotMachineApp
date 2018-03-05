@@ -60,7 +60,6 @@ public class MainActivity extends Activity {
         jackpotTxt = findViewById(R.id.jackpotText);
         jackpotTxt.setText(""+jackpot);
 
-
         Reel01 = findViewById(R.id.Reel1);
         Reel02 = findViewById(R.id.Reel2);
         Reel03 = findViewById(R.id.Reel3);
@@ -112,7 +111,7 @@ public class MainActivity extends Activity {
 
     }
 
-
+    //for using those pictures in assets folder
     public Bitmap getBitmapFromAssets(String fileName) throws IOException
     {
         AssetManager assetManager = getAssets();
@@ -122,6 +121,21 @@ public class MainActivity extends Activity {
         return bitmap;
     }
 
+    public void loadImages()
+    {
+        for(int i=0; i<itemCount; ++i)
+        {
+            item[i] = null;
+            try {
+                String imgPath = "pic/img_item"+(i+1)+".png";
+                item[i]= getBitmapFromAssets(imgPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //when player hit the reset button, reset everything as default value
     public void reset()
     {
         playerMoney = 200;
@@ -134,24 +148,8 @@ public class MainActivity extends Activity {
         hint.setText("");
     }
 
-    public void loadImages(){
-
-        for(int i=0; i<itemCount; ++i)
-        {
-            item[i] = null;
-            try {
-                int fileName = i+1;
-                String imgPath = "pic/img_item"+fileName+".png";
-                item[i]= getBitmapFromAssets(imgPath);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void spin() {
-
+    public void spin()
+    {
         if(bet == 0) hint.setText("You gotta place your bet");
 
         if(haveMoney && playerMoney>=bet && bet>0){
@@ -163,8 +161,8 @@ public class MainActivity extends Activity {
         playTimes++;
     }
 
-    public  void runSpin(){
-
+    public  void runSpin()
+    {
         int random1 = new Random().nextInt(7);
         int random2 = new Random().nextInt(7);
         int random3 = new Random().nextInt(7);
@@ -173,18 +171,20 @@ public class MainActivity extends Activity {
         Reel02.setImageBitmap(item[random2]);
         Reel03.setImageBitmap(item[random3]);
 
-        if(random1==random2 && random2==random3){
+        if(random1==random2 && random2==random3) {
             hint.setText("You Won!");
             isWin = true;
         }else isWin = false;
 
-        if(random1+random2+random3==0){
+        //when getting the diamond in line
+        if(random1+random2+random3==0) {
             playerMoney += bet*50;
             hint.setText("You Won Bonus!");     //not working
         }
 
-        //set must win condition
-        if(playTimes >= setWinTime && winTimes < 5){
+        //set must win condition to increase the rate of win
+        if(playTimes >= setWinTime && winTimes < 5)
+        {
             Reel01.setImageBitmap(item[random1]);
             Reel02.setImageBitmap(item[random1]);
             Reel03.setImageBitmap(item[random1]);
@@ -193,7 +193,8 @@ public class MainActivity extends Activity {
             playTimes = 0;
             setWinTime = new Random().nextInt(setWinTime)+5;
 
-            if (random1 ==0) {
+            //when getting the diamond in line
+            if (random1 == 0) {
                 playerMoney += bet*50;
                 hint.setText("You Won Bonus!");     //not working
             }
