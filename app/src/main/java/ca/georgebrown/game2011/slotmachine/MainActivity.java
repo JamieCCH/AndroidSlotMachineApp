@@ -1,17 +1,39 @@
+//**********************************************************************************
+// [[Authors]]
+// Jamie Chingchun Huang – 101088322
+// Jose Montenegro Avariano – 101085465
+//
+// [[Creation Date]] Feb 28, 2018
+//
+// [[The Source file name]]
+// * drawable: img_item[1~7], img_bet_button, img_lever, disable_lever, img_button, img_bet_button, bt_selector
+// * layout: activity_main
+// * mipmap: img_bg2
+// * values: colors, refs, strings, styles
+//
+// [[Revision History]]
+// * Mar 3: Basic functionality fully implemented.
+// * Mar 4: Apply GUI arts.
+// * Mar 5 : Change the using of setImageBitmap to setImageResource. Change the x50 bonus to Jackpot feature.
+//
+//
+// [[Description]]
+// * Please run it under a screen of 1280x800 resolution for better UI result.
+// *
+//
+//***********************************************************************************
+
+
+
 package ca.georgebrown.game2011.slotmachine;
 
 import android.app.Activity;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 
 
@@ -22,9 +44,6 @@ public class MainActivity extends Activity {
     private TextView jackpotTxt;
     private int bet = 0;
     private TextView playerBet;
-
-    private int itemCount = 7;
-    private Bitmap[] item = new Bitmap[itemCount];
 
     private ImageView Reel01;
     private ImageView Reel02;
@@ -39,21 +58,23 @@ public class MainActivity extends Activity {
     private int winTimes = 0;
     private boolean isWin = false;
     private int setWinTime;
-    Button spinButton;
+    private Button spinButton;
+
+    static int DRAWABLE_ID[] =
+            {
+                    R.drawable.img_item1,
+                    R.drawable.img_item2,
+                    R.drawable.img_item3,
+                    R.drawable.img_item4,
+                    R.drawable.img_item5,
+                    R.drawable.img_item6,
+                    R.drawable.img_item7
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super .onCreate(savedInstanceState);
         setContentView(R.layout. activity_main);
-//
-//        ImageView bgPic = findViewById(R.id.background);
-//        Bitmap bg = null;
-//        try {
-//            bg = getBitmapFromAssets("pic/img_background.png");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        bgPic.setImageBitmap(bg);
 
         playerBalance = findViewById(R.id.balanceText);
         playerBalance.setText(""+playerMoney);
@@ -64,10 +85,6 @@ public class MainActivity extends Activity {
         Reel02 = findViewById(R.id.Reel2);
         Reel03 = findViewById(R.id.Reel3);
 
-        loadImages();
-        Reel01.setImageBitmap(item[0]);
-        Reel02.setImageBitmap(item[0]);
-        Reel03.setImageBitmap(item[0]);
 
         hint = findViewById(R.id.hintText);
 
@@ -111,30 +128,6 @@ public class MainActivity extends Activity {
 
     }
 
-    //for using those pictures in assets folder
-    public Bitmap getBitmapFromAssets(String fileName) throws IOException
-    {
-        AssetManager assetManager = getAssets();
-        InputStream istr = assetManager.open(fileName);
-        Bitmap bitmap = BitmapFactory.decodeStream(istr);
-        istr.close();
-        return bitmap;
-    }
-
-    public void loadImages()
-    {
-        for(int i=0; i<itemCount; ++i)
-        {
-            item[i] = null;
-            try {
-                String imgPath = "pic/img_item"+(i+1)+".png";
-                item[i]= getBitmapFromAssets(imgPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     //when player hit the reset button, reset everything as default value
     public void reset()
     {
@@ -142,9 +135,11 @@ public class MainActivity extends Activity {
         bet = 0;
         playerBalance.setText(""+playerMoney);
         playerBet.setText(""+bet);
-        Reel01.setImageBitmap(item[0]);
-        Reel02.setImageBitmap(item[0]);
-        Reel03.setImageBitmap(item[0]);
+
+        Reel01.setImageResource(DRAWABLE_ID[0]);
+        Reel02.setImageResource(DRAWABLE_ID[0]);
+        Reel03.setImageResource(DRAWABLE_ID[0]);
+
         hint.setText("");
     }
 
@@ -167,9 +162,9 @@ public class MainActivity extends Activity {
         int random2 = new Random().nextInt(7);
         int random3 = new Random().nextInt(7);
 
-        Reel01.setImageBitmap(item[random1]);
-        Reel02.setImageBitmap(item[random2]);
-        Reel03.setImageBitmap(item[random3]);
+        Reel01.setImageResource(DRAWABLE_ID[random1]);
+        Reel02.setImageResource(DRAWABLE_ID[random2]);
+        Reel03.setImageResource(DRAWABLE_ID[random3]);
 
         if(random1==random2 && random2==random3) {
             hint.setText("You Won!");
@@ -178,16 +173,16 @@ public class MainActivity extends Activity {
 
         //when getting the diamond in line
         if(random1+random2+random3==0) {
-            playerMoney += bet*50;
-            hint.setText("You Won Bonus!");     //not working
+            playerMoney += jackpot;
+            hint.setText("You Won the Jackpot!!!");
         }
 
         //set must win condition to increase the rate of win
         if(playTimes >= setWinTime && winTimes < 5)
         {
-            Reel01.setImageBitmap(item[random1]);
-            Reel02.setImageBitmap(item[random1]);
-            Reel03.setImageBitmap(item[random1]);
+            Reel01.setImageResource(DRAWABLE_ID[random1]);
+            Reel02.setImageResource(DRAWABLE_ID[random1]);
+            Reel03.setImageResource(DRAWABLE_ID[random1]);
             hint.setText("You Won!");
             isWin = true;
             playTimes = 0;
@@ -195,8 +190,8 @@ public class MainActivity extends Activity {
 
             //when getting the diamond in line
             if (random1 == 0) {
-                playerMoney += bet*50;
-                hint.setText("You Won Bonus!");     //not working
+                playerMoney += jackpot;
+                hint.setText("You Won the Jackpot!!!");
             }
         }
 
