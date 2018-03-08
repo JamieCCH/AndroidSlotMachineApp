@@ -6,10 +6,7 @@
 // [[Creation Date]] Feb 28, 2018
 //
 // [[The Source file name]]
-// * drawable: img_item[1~7], img_bet_button, img_lever, disable_lever, img_button, img_bet_button, bt_selector
-// * layout: activity_main
-// * mipmap: img_bg2
-// * values: colors, refs, strings, styles
+// * MainActivity.java
 //
 // [[Revision History]]
 // * Mar 3: Basic functionality fully implemented.
